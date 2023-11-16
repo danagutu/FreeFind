@@ -5,6 +5,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 
+## TODO - Add credentials to gitignore
 cred = credentials.Certificate("oit-mentorship-programme-firebase-adminsdk-juuxr-8b6fa1a479.json")
 firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://oit-mentorship-programme-default-rtdb.europe-west1.firebasedatabase.app/'
@@ -66,7 +67,3 @@ if __name__ == "__main__":
         soup = download_event_details(url)
         event_details = extract_event_details(soup)
         save_event_details_to_firebase(event_details)
-    
-
-
-
