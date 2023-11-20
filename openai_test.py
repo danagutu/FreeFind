@@ -10,6 +10,13 @@ key = openai_creds["key"]
 
 openai.api_key  = key 
 
+def get_test_prompt ():
+    with open("test_content/description.txt", "r", encoding="utf-8") as file:
+        prompt_description = file.read()
+    
+    test_prompt = prompt_freefind + prompt_description
+    return test_prompt
+
 def get_completion(prompt, model="gpt-3.5-turbo"):
     messages = [{"role": "user", "content": prompt}]
     response = openai.ChatCompletion.create(
@@ -19,25 +26,21 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
     )
     return response.choices[0].message["content"]
 
-prompt_test = f"""
-Tell me a joke
-"""
-prompt_freefind = f"""
-Your task is to perform the follwoing actions:
-1. Read event_description and identify if the text mentions any of the following for free: food, soft drinks, alcoholic drinks, merchandise or DIY activities.
-2. Output 5 json objects that contain the following keys: free_food, free_soft_drinks, free_alch_drinks, free_merch, free_diy.
-All objects should have a bollean value (true or false) attched to them.
-If the text mentions free food, then free_food true. If it doesn't mention free food, then free_food is false.
-If the text mentions free soft drinks, then free_soft_drinks true. If it doesn't mention free soft drinks, then free_soft_drinks is false.
-If the text mentions free alcoholic drinks, then free_alcoholic drinks is true. If it doesn't mention free alcoholic drinks, then it free_alcoholic_drinks is false.
-If the text mentions free merchandise, then free_merch should be true. If it doesn't mention free merchandise, then it free_merch is false.
-If the text mentions free DIY activities, then free_diy should be true. If it doesn't mention free DIY activities, then it free_diy is false.
-3. If the text doesn't mention one of the above-mentioned things, then assign the value false.
 
-Use the following format:
-<json with free_food, free_soft_drinks, free_alcoholic_drinks, free_merch, free_diy>
+prompt_freefind = f"""
+You will be given the description of an event that has free entry. This event is for students. 
+Your task is to perform the follwoing actions:
+1. Read event_description and extract...
+2. Identify if the text mentions any of the following: any food items, soft drinks, alcoholic drinks.
+3. Output 1 json object that contain the following keys: free_food, free_soft_drinks, free_alch_drinks.
+The object should have a bollean value (true or false) attched to it.
+If the text mentions food, then free_food true. If it doesn't mention food, then free_food is false.
+If the text mentions soft drinks, then free_soft_drinks true. If it doesn't mention soft drinks, then free_soft_drinks is false.
+If the text mentions alcoholic drinks, then free_alcoholic drinks is true. If it doesn't mention alcoholic drinks, then it free_alcoholic_drinks is false.
+3. If the text doesn't mention one of the above-mentioned things, then assign the value false.
 """
 
 if __name__ == "__main__":
-    response = get_completion (prompt_test)
+    test_prompt = get_test_prompt ()
+    response = get_completion (test_prompt)
     print(response)
