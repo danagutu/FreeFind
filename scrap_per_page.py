@@ -17,20 +17,28 @@ def download_event_details (url):
     
     return soup
 
+def extract_description (soup):
+    container = soup.find(id="uc-events-details-page")
+    p_tags = container.find_all('p', recursive=True)
+    # Accessing the second <p> tag, index [1] because list indices start at 0
+    if len(p_tags) > 1:
+        target_element = p_tags[2]
+        # to do: fix p_tags[1 or 2]
+        # if tags 1 is empty, go to 2
+    return target_element.text
+
 def extract_event_details (soup):
     event_title = soup.title.text.strip()
     event_date_time = soup.find("span", {"class":"eventDateTime"}).text.strip()
     event_location = soup.find("span", {"class": "eventVenue"}).text.strip()
-    #event_description = soup.find("span", {"class": "contentBoxes"}).text.strip()
+    event_description = extract_description(soup)
     #event_image = soup.find("span", {"class": "galleryIcon"}).text.strip()
-    
-    #### space for openai_test.py
-    
+        
     event_details = {
         "title": event_title,
         "date_time": event_date_time,
         "location": event_location,
-        #"description": event_description,
+        "description": event_description,
         #"image": event_image,
         #"free_food": free_food,
         #"free_soft_drinks":free_soft_drinks,
