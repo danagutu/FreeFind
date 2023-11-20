@@ -5,7 +5,6 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 
-## TODO - Add credentials to gitignore
 cred = credentials.Certificate("creds/oit-mentorship-programme-firebase-adminsdk-juuxr-8b6fa1a479.json")
 firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://oit-mentorship-programme-default-rtdb.europe-west1.firebasedatabase.app/'
@@ -24,12 +23,20 @@ def extract_event_details (soup):
     event_location = soup.find("span", {"class": "eventVenue"}).text.strip()
     #event_description = soup.find("span", {"class": "contentBoxes"}).text.strip()
     #event_image = soup.find("span", {"class": "galleryIcon"}).text.strip()
+    
+    #### space for openai_test.py
+    
     event_details = {
         "title": event_title,
         "date_time": event_date_time,
         "location": event_location,
         #"description": event_description,
-        #"image": event_image
+        #"image": event_image,
+        #"free_food": free_food,
+        #"free_soft_drinks":free_soft_drinks,
+        #"free_alc_drinks": free_alch_drinks,
+        #"free_merch":free_merch,
+        #"free_diy":free_diy
     }
 
     return event_details
