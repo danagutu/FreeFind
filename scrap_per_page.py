@@ -35,24 +35,28 @@ def extract_event_details (soup):
         #"free_food": free_food,
         #"free_soft_drinks":free_soft_drinks,
         #"free_alc_drinks": free_alch_drinks,
-        #"free_merch":free_merch,
-        #"free_diy":free_diy
     }
 
     return event_details
+
+def get_id_from_url(url):
+    url_parts = url.split("/")
+    id = url_parts[-1]
+    return id
 
 def save_event_details_to_json (event_details):
     event_details_json = "event_details.json"
     with open(event_details_json, "w", encoding="utf-8") as json_file:
         json.dump(event_details, json_file, indent=2)
 
-def save_event_details_to_firebase(event_details):
+def save_event_details_to_firebase(event_details, id):
     print(event_details)
+    print(id)
     try:
         # Reference to the database
         ref = db.reference('events')
         # Pushing the new event details
-        ref.push(event_details)
+        ref.child(id).set(event_details)
     except Exception as e:
         print(e)
 
@@ -71,6 +75,7 @@ events = [
 
 if __name__ == "__main__":
     for url in events:
+        id = get_id_from_url(url)
         soup = download_event_details(url)
         event_details = extract_event_details(soup)
-        save_event_details_to_firebase(event_details)
+        save_event_details_to_firebase(event_details, id)

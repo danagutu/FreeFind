@@ -30,8 +30,8 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
 prompt_freefind = f"""
 You will be given the description of an event that has free entry. This event is for students. 
 Your task is to perform the follwoing actions:
-1. Read event_description and extract...
-2. Identify if the text mentions any of the following: any food items, soft drinks, alcoholic drinks.
+1. Read event_description and extract the sentences with free food or drinks.
+2. Identify if the sentences that mention any of the following: any food items, soft drinks, alcoholic drinks.
 3. Output 1 json object that contain the following keys: free_food, free_soft_drinks, free_alch_drinks.
 The object should have a bollean value (true or false) attched to it.
 If the text mentions food, then free_food true. If it doesn't mention food, then free_food is false.
