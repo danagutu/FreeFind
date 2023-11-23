@@ -22,12 +22,8 @@ def get_events():
     return events
 
 
-def get_test_prompt(i):
-    with open("test_content/description.txt", "r", encoding="utf-8") as file:
-        prompt_description = get_event_description_from_firebase(i)
-        #prompt_description = file.read()
-    
-    test_prompt = prompt_freefind + prompt_description
+def get_test_prompt(description):    
+    test_prompt = prompt_freefind + description
     return test_prompt
 
 def save_free_items_to_firebase(event_details):
@@ -51,16 +47,16 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
     return response.choices[0].message["content"]
 
 
-prompt_freefind = f"""
+pre_prompt = f"""
 You will be given the description of an event that has free entry. This event is for students. 
 Your task is to perform the follwoing actions:
 1. Read event_description and extract the sentences that contain any food or drink items.
 2. Identify if the sentences you extracted contain any of the following: any food items, soft drinks, alcoholic drinks.
-3. Output a dictionary called "event_details" with the following json objects: free_food, free_soft_drinks, free_alch_drinks.
-The objects should have a bollean value (true or false) attached to it.
-If any of the sentences mention any food items, then assign the value "true" to free_food. Else, assign false.
-If any of the sentences mention non-alcoholic drinks, then assign the value "true" to free_soft_drinks. Else, assign false.
-If any of the sentences mention alcoholic drinks, then assign the value "true" to free_alcoholic_drinks. Else, assign false.
+3. Output a dictionary called "event_details" with the following keys: "free_food", "free_soft_drinks", "free_alch_drinks".
+The values should be boolean.
+If any of the sentences mention any food items, then assign the value True to free_food. Else, assign False.
+If any of the sentences mention non-alcoholic drinks, then assign the value True to free_soft_drinks. Else, assign False.
+If any of the sentences mention alcoholic drinks, then assign the value True to free_alcoholic_drinks. Else, assign False.
 """
 
 
@@ -110,21 +106,17 @@ def merge_json():
 
 
 
-
-
 if __name__ == "__main__":
     if test_mode:
         print(test_mode)
+
+    else:
         events = get_events()
         for event_id in events:
             description = events[event_id]["description"]
-            print(event_id)
-            print(description)
-            print("")
 
-    else:
-        for i in range(10):
-            test_prompt = get_test_prompt(i)
-            #print(test_prompt)
-            response = get_completion(test_prompt)
+            prompt = pre_prompt + description
+            response = get_completion(prompt)
+
+            print(event_id)
             print(response)
