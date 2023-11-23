@@ -20,26 +20,41 @@ def download_event_details (url):
 def extract_description (soup):
     container = soup.find(id="uc-events-details-page")
     p_tags = container.find_all('p', recursive=True)
-    # Accessing the second <p> tag, index [1] because list indices start at 0
+
+    def trueCount(p_tags):
+
+        eventTrue = True
+        eventTrueList = []
+        for i in range(0, len(p_tags)-1):
+            if (p_tags[i].text.strip()!="") and ("cancelled" not in p_tags[i].text.strip()) and ("expired" not in p_tags[i].text.strip()) and ("no longer" not in p_tags[i].text.strip()):
+                eventTrueList.append(i)
+            else:
+                eventTrue = False
+        if len(eventTrueList)==0:
+            return None
+        else:
+            return eventTrueList[0]
+
     if len(p_tags) > 1:
-        target_element = p_tags[2]
-        # to do: fix p_tags[1 or 2]
-        # if tags 1 is empty, go to 2
-    return target_element.text
+        i = trueCount(p_tags)
+        target_element = p_tags[i]
+        return target_element.text
+
+# to fix: read all the <p>'s that contain a description
 
 def extract_event_details (soup):
     event_title = soup.title.text.strip()
     event_date_time = soup.find("span", {"class":"eventDateTime"}).text.strip()
     event_location = soup.find("span", {"class": "eventVenue"}).text.strip()
     event_description = extract_description(soup)
-    #event_image = soup.find("span", {"class": "galleryIcon"}).text.strip()
+    event_image = soup.find("a", {"class": "galleryIcon"})
         
     event_details = {
         "title": event_title,
         "date_time": event_date_time,
         "location": event_location,
         "description": event_description,
-        #"image": event_image,
+        "image": event_image,
         #"free_food": free_food,
         #"free_soft_drinks":free_soft_drinks,
         #"free_alc_drinks": free_alch_drinks,
