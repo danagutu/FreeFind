@@ -6,7 +6,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 
-test_mode = True
+test_mode = False
 
 # retrieves the OpenAI API Key
 file_path = "creds/openai_creds.json"
@@ -15,36 +15,23 @@ with open(file_path, "r") as file:
 key = openai_creds["key"]
 
 openai.api_key  = key
+events_ref = db.reference('/events')
 
-def get_events():
-    ref = db.reference('/events')
-    events = ref.get()
-    return events
-
-
-def get_test_prompt(description):    
-    test_prompt = prompt_freefind + description
-    return test_prompt
-
-def save_free_items_to_firebase(event_details):
-    print(event_details)
+def save_free_stuff(free_stuff, id):
     try:
-        # Reference to the database
-        ref = db.reference('events')
         # Pushing the new event details
-        ref.child().set(event_details)
+        events_ref.child(id).child("free_stuff").set(free_stuff)
     except Exception as e:
         print(e)
 
-
 def get_completion(prompt, model="gpt-3.5-turbo"):
     messages = [{"role": "user", "content": prompt}]
-    response = openai.ChatCompletion.create(
+    free_stuff = openai.ChatCompletion.create(
         model=model,
         messages=messages,
         temperature=0, # degree of randomness of the model's output
     )
-    return response.choices[0].message["content"]
+    return free_stuff.choices[0].message["content"]
 
 
 pre_prompt = f"""
@@ -70,40 +57,6 @@ def get_id_from_url(url):
   #  with open(event_details_json, "w", encoding="utf-8") as json_file:
    #     json.dump(event_details, json_file, indent=2)
 
-def save_event_details_to_firebase(event_details, id):
-    print(event_details)
-    print(id)
-    try:
-        # Reference to the database
-        ref = db.reference('events')
-        # Pushing the new event details
-        ref.child(id).set(event_details)
-    except Exception as e:
-        print(e)
-
-
-
-def merge_json():
-    events_ref = db.reference('/events')
-
-    # Retrieve data for all events
-    events_data = events_ref.get()
-    old_events = []
-
-    # Access and print each JSON object
-    for event_id, event_data in events_data.items():
-        #print(f"Event ID: {event_id}")
-        #print("Event Data:")
-        #print(event_data)
-        old_events.append(event_data)
-
-    for i in range(10):
-        test_prompt = get_test_prompt(i)
-        #print(test_prompt)
-        response = get_completion(test_prompt)
-        new_event = old_events[i] + response
-        save_event_details_to_firebase(new_event, id)
-
 
 
 if __name__ == "__main__":
@@ -111,12 +64,17 @@ if __name__ == "__main__":
         print(test_mode)
 
     else:
-        events = get_events()
+        events = events_ref.get()
+
         for event_id in events:
+            print(event_id)
+
             description = events[event_id]["description"]
+            print(description)
 
             prompt = pre_prompt + description
-            response = get_completion(prompt)
+            free_stuff = get_completion(prompt)
+            print(free_stuff)
 
-            print(event_id)
-            print(response)
+            save_free_stuff(free_stuff, event_id)
+            print("SAVED!")

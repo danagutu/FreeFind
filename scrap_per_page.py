@@ -47,14 +47,14 @@ def extract_event_details (soup):
     event_date_time = soup.find("span", {"class":"eventDateTime"}).text.strip()
     event_location = soup.find("span", {"class": "eventVenue"}).text.strip()
     event_description = extract_description(soup)
-    event_image = soup.find("a", {"class": "galleryIcon"})
+    #event_image = soup.find("a", {"class": "galleryIcon"})
         
     event_details = {
         "title": event_title,
         "date_time": event_date_time,
         "location": event_location,
         "description": event_description,
-        "image": event_image,
+        #"image": event_image,
         #"free_food": free_food,
         #"free_soft_drinks":free_soft_drinks,
         #"free_alc_drinks": free_alch_drinks,
@@ -94,6 +94,10 @@ events = [
     "https://www.bristolsu.org.uk/events/womens-network-tote-bag-and-tapestry-painting",
     "https://www.bristolsu.org.uk/events/climate-conversations-and-crafts",
     "https://www.bristolsu.org.uk/groups/mechsoc-mechanical-engineering-society-c13d/events/mechsoc-alumni-networking-event"
+]
+
+test_events = [
+    "https://www.bristolsu.org.uk/groups/bems-bristol-engineering-mathematics-society/events/board-games-and-pizza-13d3"
 ]
 
 if __name__ == "__main__":
