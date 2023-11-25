@@ -72,9 +72,9 @@ TODO
 - (optional) improve the prompt setup to be more consistent. Currently 3/10 are failing because of hallucinations
 
 ### Week 5 - Front-End and Web Frameworks
-- host via heroku (?)
-- display elements (react?)
-- connect to firebase
+- host via Github Pages
+- display elements (static page HTML CSS)
+- connect to firebase (JS)
 
 ### Week 6 - First Release
 - Populate back-end
