@@ -47,14 +47,15 @@ def extract_event_details (soup):
     event_date_time = soup.find("span", {"class":"eventDateTime"}).text.strip()
     event_location = soup.find("span", {"class": "eventVenue"}).text.strip()
     event_description = extract_description(soup)
-    #event_image = soup.find("a", {"class": "galleryIcon"})
+    event_gallery = soup.find("a", {"class":"galleryIcon"})
+    event_image = event_gallery.find("img")["src"]
         
     event_details = {
         "title": event_title,
         "date_time": event_date_time,
         "location": event_location,
         "description": event_description,
-        #"image": event_image,
+        "image": event_image,
         #"free_food": free_food,
         #"free_soft_drinks":free_soft_drinks,
         #"free_alc_drinks": free_alch_drinks,
@@ -82,6 +83,11 @@ def save_event_details_to_firebase(event_details, id):
         ref.child(id).set(event_details)
     except Exception as e:
         print(e)
+
+#def collect_event_link_from_webpage():
+    #
+
+ #   return events
 
 events = [
     "https://www.bristolsu.org.uk/groups/bems-bristol-engineering-mathematics-society/events/board-games-and-pizza-13d3",
