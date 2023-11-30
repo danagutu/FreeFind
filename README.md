@@ -60,20 +60,21 @@ This led to the idea of helping students find events with free food, drinks, act
 - Unblocked access issues with OpenAI
 - Used openAI chat completion API to parse descriptions for 'free drinks'
 - Improved storage of events in Firebase
+- Improved scraping to get a good baseline descritpion for 'events', explore and better understand parsing with Beautiful Soup.
+- Fetch all events from Firebase, and run Chat Completion
+- Save free_stuff in Firebase for the list 10 objects
 
-### TODO
-- Improve scraping to get a good baseline descritpion for 'events', explore and better understand parsing with Beautiful Soup.
+TODO
 - add image URLs
-- *in openai_test* - fetch all events from Firebase
-- for events missing the 'free_drinks' attributes, run Chat Completion
-- Save free_drinks (true/false) in Firebase
-- (optional) improve the prompt setup to get free food (true/false)
-- populate 5 - 15 events in Firebase
+- (optional) find a way to scrape event list from BristolSU
+- get a new list of 10 events in December from BristolSU
+- (optional) get another 10 events from a different website (tbd!) Maybe Meetup API?
+- (optional) improve the prompt setup to be more consistent. Currently 3/10 are failing because of hallucinations
 
 ### Week 5 - Front-End and Web Frameworks
-- connect to firebase
-- host via heroku (?)
-- display elements (react?)
+- host via Github Pages
+- display elements (static page HTML CSS)
+- connect to firebase (JS)
 
 ### Week 6 - First Release
 - Populate back-end
