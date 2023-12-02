@@ -64,24 +64,26 @@ This led to the idea of helping students find events with free food, drinks, act
 - Fetch all events from Firebase, and run Chat Completion
 - Save free_stuff in Firebase for the list 10 objects
 
-TODO
-- add image URLs
-- (optional) find a way to scrape event list from BristolSU
-- get a new list of 10 events in December from BristolSU
-- (optional) get another 10 events from a different website (tbd!) Maybe Meetup API?
-- (optional) improve the prompt setup to be more consistent. Currently 3/10 are failing because of hallucinations
-
-### Week 5 - Front-End and Web Frameworks
-- host via Github Pages
+### Week 5 - Front-End and Bug fixes
+- host via Github Pages: https://danagutu.github.io/
 - display elements (static page HTML CSS)
 - connect to firebase (JS)
+- display all elements in database
+- Bug fixes
+    - add image URLs
+    - display event details (for vs. [forEach](https://stackoverflow.com/questions/43031988/javascript-efficiency-for-vs-foreach)) 
 
 ### Week 6 - First Release
-- Populate back-end
+- find a way to scrape event list from BristolSU
 - Explore regular processes (cron?)
 - Manage display, any issues on front-end
+- Review design vs. initial scope
+- create & add logo, other core elements
+- (optional) improve the prompt setup to be more consistent. Currently 3/10 are failing because of hallucinations
+- (optional) get another 10 events from a different website (tbd!) Maybe Meetup API?
 
 ### Week 7 - Major iterations & Refactors
+- Presentation at Out in Tech graduation event
 - Review additional fields to generate
 - Review additional data sources for events
 - Gather and prioritise feedback from users
