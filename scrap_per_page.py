@@ -42,7 +42,7 @@ def extract_description (soup):
 
 # to fix: read all the <p>'s that contain a description
 
-def extract_event_details (soup):
+def extract_event_details (soup, url=""):
     event_title = soup.title.text.strip()
     event_date_time = soup.find("span", {"class":"eventDateTime"}).text.strip()
     event_location = soup.find("span", {"class": "eventVenue"}).text.strip()
@@ -51,6 +51,7 @@ def extract_event_details (soup):
     event_image = event_gallery.find("img")["src"]
         
     event_details = {
+        "url": url,
         "title": event_title,
         "date_time": event_date_time,
         "location": event_location,
@@ -68,10 +69,10 @@ def get_id_from_url(url):
     id = url_parts[-1]
     return id
 
-def save_event_details_to_json (event_details):
-    event_details_json = "event_details.json"
-    with open(event_details_json, "w", encoding="utf-8") as json_file:
-        json.dump(event_details, json_file, indent=2)
+# def save_event_details_to_json (event_details):
+#     event_details_json = "event_details.json"
+#     with open(event_details_json, "w", encoding="utf-8") as json_file:
+#         json.dump(event_details, json_file, indent=2)
 
 def save_event_details_to_firebase(event_details, id):
     print(event_details)
