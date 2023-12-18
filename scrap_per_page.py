@@ -23,24 +23,23 @@ def extract_description (soup):
 
     def trueCount(p_tags):
 
-        eventTrue = True
-        eventTrueList = []
+        eventText = ""
         for i in range(0, len(p_tags)-1):
-            if (p_tags[i].text.strip()!="") and ("cancelled" not in p_tags[i].text.strip()) and ("expired" not in p_tags[i].text.strip()) and ("no longer" not in p_tags[i].text.strip()):
-                eventTrueList.append(i)
-            else:
-                eventTrue = False
-        if len(eventTrueList)==0:
+
+            p_text = p_tags[i].text.strip()
+
+            if (p_text!="") and ("cancelled" not in p_text) and ("expired" not in p_text) and ("no longer" not in p_text):
+                eventText += p_text
+
+        if len(eventText)==0:
             return None
         else:
-            return eventTrueList[0]
+            return eventText
 
     if len(p_tags) > 1:
-        i = trueCount(p_tags)
-        target_element = p_tags[i]
-        return target_element.text
+        eventText = trueCount(p_tags)
 
-# to fix: read all the <p>'s that contain a description
+        return eventText
 
 def extract_event_details (soup, url=""):
     event_title = soup.title.text.strip()
@@ -57,9 +56,9 @@ def extract_event_details (soup, url=""):
         "location": event_location,
         "description": event_description,
         "image": event_image,
-        #"free_food": free_food,
-        #"free_soft_drinks":free_soft_drinks,
-        #"free_alc_drinks": free_alch_drinks,
+        # "free_food": free_food,
+        # "free_soft_drinks":free_soft_drinks,
+        # "free_alc_drinks": free_alch_drinks,
     }
 
     return event_details

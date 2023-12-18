@@ -20,6 +20,8 @@ events_ref = db.reference('/events')
 def save_free_stuff(free_stuff, id):
     try:
         # Pushing the new event details
+        free_stuff = free_stuff.lower()
+        free_stuff = json.loads(free_stuff)
         events_ref.child(id).child("free_stuff").set(free_stuff)
     except Exception as e:
         print(e)
@@ -39,11 +41,14 @@ You will be given the description of an event that has free entry. This event is
 Your task is to perform the follwoing actions:
 1. Read event_description and extract the sentences that contain any food or drink items.
 2. Identify if the sentences you extracted contain any of the following: any food items, soft drinks, alcoholic drinks.
-3. Output a dictionary called "event_details" with the following keys: "free_food", "free_soft_drinks", "free_alch_drinks".
+3. Output an object with the following keys: "free_food", "free_soft_drinks", "free_alch_drinks".
 The values should be boolean.
-If any of the sentences mention any food items, then assign the value True to free_food. Else, assign False.
+If any of the sentences mention any food items (such as pizza, popcorn, snacks, sushi etc.), then assign the value True to free_food. Else, assign False.
 If any of the sentences mention non-alcoholic drinks, then assign the value True to free_soft_drinks. Else, assign False.
 If any of the sentences mention alcoholic drinks, then assign the value True to free_alcoholic_drinks. Else, assign False.
+If the text doesn't mention any free items, default to False.
+---
+
 """
 
 
@@ -78,3 +83,7 @@ if __name__ == "__main__":
 
             save_free_stuff(free_stuff, event_id)
             print("SAVED!")
+
+
+
+# look at event details free_item on the front_end and select all events that have at least one free element
